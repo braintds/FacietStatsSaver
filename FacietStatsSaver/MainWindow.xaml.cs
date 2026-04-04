@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FacietStatsSaver.Model;
+using Newtonsoft.Json;
 
 namespace FacietStatsSaver
 {
@@ -16,7 +19,7 @@ namespace FacietStatsSaver
     /// </summary>
     public partial class MainWindow : Window
     {
-        FacietStatsSaver.ViewModel.ApplicationViewModel? _model = null; 
+        FacietStatsSaver.ViewModel.ApplicationViewModel? _model = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,9 +46,27 @@ namespace FacietStatsSaver
         {
             var debugWnd = new debugWnd();
 
-            //var response = await _model.LastMatchesAsync(); 
+            
+            string response = null;
+            if (this.FromDatePicker != null)
+            {
+                if (this.ToDatePicker != null)
+                {//привязка https://ru.stackoverflow.com/questions/937239/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D0%B2-datagrid-%D0%B2-wpf
+                    response = await _model.LastMatchesAsync(this.FromDatePicker.SelectedDate.Value, this.ToDatePicker.SelectedDate.Value, 5, 0);
+                    MainDataGrid.ItemsSource = (JsonConvert.DeserializeObject<getPlayerMatchesResponse>(response)).matches.items;
+
+                    return;
+                }
+                response = await _model.LastMatchesAsync(this.FromDatePicker.SelectedDate.Value, DateTime.UtcNow, 5, 0);
+                MainDataGrid.ItemsSource = (JsonConvert.DeserializeObject<getPlayerMatchesResponse>(response)).matches.items;
+                return;
+            }
+            else
+            {
+                var msg = MessageBox.Show("Choose date in box!");
+            }
             debugWnd.Show();
-            debugWnd.ShowViewModel(await _model.LastMatchesAsync());
+            debugWnd.ShowViewModel(response == null ? response : "Nullresponse");
         }
 
         private void DateCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -64,7 +85,12 @@ namespace FacietStatsSaver
 
         private void SaveMatchesButton_Click(object sender, RoutedEventArgs e)
         {
-          
+
+        }
+
+        private void ViewStatisticsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

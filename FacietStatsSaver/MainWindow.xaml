@@ -14,7 +14,7 @@
         <TextBox x:Name="link_str" Margin="0,0,1049,106" TextWrapping="Wrap" HorizontalAlignment="Right" Width="429" Height="18" VerticalAlignment="Bottom" Text="VALERA_2015"/>
         <TextBlock Margin="0,0,1493,108" TextWrapping="Wrap" Text="Faceit account link" RenderTransformOrigin="0.358,0.487" HorizontalAlignment="Right" Width="97" Height="16" VerticalAlignment="Bottom"/>
         <TextBlock Margin="0,0,1462,10" TextWrapping="Wrap" Text="Enter the time interval for saving statistics" RenderTransformOrigin="0.358,0.487" HorizontalAlignment="Right" Width="128" Height="37" VerticalAlignment="Bottom"/>
-        <CheckBox x:Name="DateCheckBox" Content="from now until I stop" Margin="0,0,1306,81" Checked="DateCheckBox_Checked" Unchecked="DateCheckBox_Unchecked" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="131" IsChecked="True"/>
+        <CheckBox x:Name="DateCheckBox" Content="from now until I stop" Margin="0,0,1306,81" Checked="DateCheckBox_Checked" Unchecked="DateCheckBox_Unchecked" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="131" IsChecked="False"/>
         <Button Content="try find account" Margin="0,0,923,106" Click="Button_Click" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="117"/>
         <TextBlock x:Name="statsLabelTextBox" HorizontalAlignment="Right" Margin="0,0,1045,85" TextWrapping="Wrap" Text="Average session statistics:" VerticalAlignment="Bottom" Height="16" Width="162"/>
         <TextBlock x:Name="avgLabelTextBox" HorizontalAlignment="Left" Margin="364,0,0,64" TextWrapping="Wrap" Text="AVG:" Width="32" Height="16" VerticalAlignment="Bottom"/>
@@ -24,10 +24,10 @@
         <TextBlock x:Name="wlLabelTextBox" Margin="0,0,1059,64" TextWrapping="Wrap" Text="W/L%:" Foreground="Black" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="37"/>
         <TextBlock x:Name="wlTextBox" HorizontalAlignment="Right" Margin="0,0,1035,64" TextWrapping="Wrap" Text="N/A" Width="24" Height="16" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="accountFindResult" HorizontalAlignment="Left" Margin="691,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Hidden" UseLayoutRounding="True"/>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Height="712" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Margin="0,168,0,0" Grid.RowSpan="2"/>
-        <Button x:Name="matchesButton" Content="Button" HorizontalAlignment="Left" Margin="560,60,0,0" VerticalAlignment="Top" Click="Button_Click_1" Visibility="Hidden"/>
+        <DataGrid x:Name="MainDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Height="712" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Margin="0,168,0,0" Grid.RowSpan="2"/>
+        <Button x:Name="matchesButton" Content="Button" HorizontalAlignment="Right" Margin="0,0,1045,16" VerticalAlignment="Bottom" Click="Button_Click_1"/>
         <Button x:Name="SaveMatchesButton" Content="Save matches" Margin="0,0,800,70" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="90" Click="SaveMatchesButton_Click"/>
-        <Button x:Name="ViewStatisticsButton" Content="View stats" HorizontalAlignment="Right" Margin="0,0,924,71" VerticalAlignment="Bottom" RenderTransformOrigin="0.579,0.601" />
+        <Button x:Name="ViewStatisticsButton" Content="View stats" HorizontalAlignment="Right" Margin="0,0,924,71" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Click="ViewStatisticsButton_Click" />
         <Button x:Name="StopButton" Content="stop" HorizontalAlignment="Left" Height="19" Margin="309,67,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="51"/>
         <DatePicker x:Name="FromDatePicker" HorizontalAlignment="Right" Margin="0,0,1306,16" VerticalAlignment="Bottom"/>
         <DatePicker x:Name="ToDatePicker" HorizontalAlignment="Right" Margin="0,0,1125,16" VerticalAlignment="Bottom"/>

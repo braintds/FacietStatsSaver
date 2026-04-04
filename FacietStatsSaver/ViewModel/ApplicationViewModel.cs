@@ -17,6 +17,6 @@ namespace FacietStatsSaver.ViewModel
 
         public async Task<string?> checkAccAsync(string name) => (await _client.getAccountAsync(name, CancellationToken.None)).account.player_id;
         
-        public async Task<string> LastMatchesAsync() => JsonConvert.SerializeObject((await _client.GetPlayerMatchesAsync(new DateTime(2026, 3, 18, 17, 0, 0), DateTime.UtcNow, 5, 0, CancellationToken.None)));
+        public async Task<string> LastMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition) => JsonConvert.SerializeObject((await _client.GetPlayerMatchesAsync(from, to, 5, 0, CancellationToken.None)));
     }
 }
