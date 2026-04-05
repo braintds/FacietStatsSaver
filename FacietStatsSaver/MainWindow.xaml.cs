@@ -20,6 +20,7 @@ namespace FacietStatsSaver
     public partial class MainWindow : Window
     {
         FacietStatsSaver.ViewModel.ApplicationViewModel? _model = null;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -47,26 +48,26 @@ namespace FacietStatsSaver
             var debugWnd = new debugWnd();
 
             
-            string response = null;
+            var response = new List<Stats>();
             if (this.FromDatePicker != null)
             {
                 if (this.ToDatePicker != null)
                 {//привязка https://ru.stackoverflow.com/questions/937239/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D0%B2-datagrid-%D0%B2-wpf
                     response = await _model.LastMatchesAsync(this.FromDatePicker.SelectedDate.Value, this.ToDatePicker.SelectedDate.Value, 5, 0);
-                    MainDataGrid.ItemsSource = (JsonConvert.DeserializeObject<getPlayerMatchesResponse>(response)).matches.items;
+                    MainDataGrid.ItemsSource =response;
 
                     return;
                 }
-                response = await _model.LastMatchesAsync(this.FromDatePicker.SelectedDate.Value, DateTime.UtcNow, 5, 0);
-                MainDataGrid.ItemsSource = (JsonConvert.DeserializeObject<getPlayerMatchesResponse>(response)).matches.items;
+                MainDataGrid.ItemsSource = await _model.LastMatchesAsync(this.FromDatePicker.SelectedDate.Value, DateTime.UtcNow, 5, 0);
+                
                 return;
             }
             else
             {
                 var msg = MessageBox.Show("Choose date in box!");
             }
-            debugWnd.Show();
-            debugWnd.ShowViewModel(response == null ? response : "Nullresponse");
+            //debugWnd.Show();
+            //debugWnd.ShowViewModel(response == null ? response : "Nullresponse");
         }
 
         private void DateCheckBox_Checked(object sender, RoutedEventArgs e)

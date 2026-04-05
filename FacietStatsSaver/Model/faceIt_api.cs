@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -52,9 +53,11 @@ namespace FacietStatsSaver.Model
             throw new HttpRequestException("request attemps is end", null, HttpStatusCode.ServiceUnavailable);
         }
 
-        public async Task<getPlayerMatchesResponse> GetPlayerMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition, CancellationToken cancellationToken)
+        public async Task<string> GetPlayerMatchesJsonAsync(getPlayerMatchesResponse response) => JsonConvert.SerializeObject(response);
+        
+
+        public async Task<getPlayerMatchesResponse> getPlayerMatchesStatsAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition, CancellationToken cancellationToken)
         {
-            
             int maxAttempts = 3;
             int delayMs = 3000;
 
@@ -79,6 +82,12 @@ namespace FacietStatsSaver.Model
                 response.EnsureSuccessStatusCode();
             }
             throw new HttpRequestException("request attemps is end", null, HttpStatusCode.ServiceUnavailable);
+        }
+        public async Task<List<Stats>> getPlayerMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition, CancellationToken cancellationToken) {
+            var response = await getPlayerMatchesStatsAsync(from, to, countMatches, startPosition, cancellationToken);
+            return new List<Stats>(
+                response.matches.items.Select(x => x.stats)
+            );
         }
     }
 }
