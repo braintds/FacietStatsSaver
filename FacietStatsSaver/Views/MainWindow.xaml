@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FacietStatsSaver"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1600">
+        Title="FaceIt stat saver">
     <Grid Height="890" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600">
         <Grid.RowDefinitions>
-            <RowDefinition Height="41*"/>
-            <RowDefinition Height="176*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBox x:Name="link_str" Margin="0,0,1049,106" TextWrapping="Wrap" HorizontalAlignment="Right" Width="429" Height="18" VerticalAlignment="Bottom" Text="VALERA_2015"/>
         <TextBlock Margin="0,0,1493,108" TextWrapping="Wrap" Text="Faceit account link" RenderTransformOrigin="0.358,0.487" HorizontalAlignment="Right" Width="97" Height="16" VerticalAlignment="Bottom"/>
         <TextBlock Margin="0,0,1462,10" TextWrapping="Wrap" Text="Enter the time interval for saving statistics" RenderTransformOrigin="0.358,0.487" HorizontalAlignment="Right" Width="128" Height="37" VerticalAlignment="Bottom"/>
         <CheckBox x:Name="DateCheckBox" Content="from now until I stop" Margin="0,0,1306,81" Checked="DateCheckBox_Checked" Unchecked="DateCheckBox_Unchecked" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="131" IsChecked="False"/>
-        <Button Content="try find account" Margin="0,0,923,106" Click="Button_Click" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="117"/>
+        <Button Content="try find account" Margin="0,0,923,106" Command="{Binding LoadMatchesCommand}" Height="18" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="117"/>
         <TextBlock x:Name="statsLabelTextBox" HorizontalAlignment="Right" Margin="0,0,1045,85" TextWrapping="Wrap" Text="Average session statistics:" VerticalAlignment="Bottom" Height="16" Width="162"/>
         <TextBlock x:Name="avgLabelTextBox" HorizontalAlignment="Left" Margin="364,0,0,64" TextWrapping="Wrap" Text="AVG:" Width="32" Height="16" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="avgTextBox" Margin="0,0,1181,63" TextWrapping="Wrap" Height="17" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="26" Text="N/A"/>

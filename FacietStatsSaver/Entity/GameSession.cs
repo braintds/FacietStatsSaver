@@ -7,7 +7,7 @@ public partial class GameSession
 {
     public int Sessionid { get; set; }
 
-    public int Accountid { get; set; }
+    public string Accountid { get; set; }
 
     public DateTime Intervalstartdate { get; set; }
 

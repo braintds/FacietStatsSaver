@@ -5,7 +5,7 @@ namespace FacietStatsSaver.Entity;
 
 public partial class Account
 {
-    public int Accountid { get; set; }
+    public string Accountid { get; set; }
 
     public string Accountname { get; set; } = null!;
 
