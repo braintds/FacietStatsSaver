@@ -24,16 +24,17 @@ namespace FacietStatsSaver.Model
 
         public faceIt_api(Account account) => _account = account;
 
+        public faceIt_api() { }
         public async Task<getPlayerByNameResponse> getAccountAsync(string accountName, CancellationToken cancellationToken)
         {
             _client.BaseAddress = new System.Uri("https://open.faceit.com/data/v4/");
-
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _api_key);
             int maxAttempts = 3;
             int delayMs = 3000;
 
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
-                var response = await _client.GetAsync($"players?nickname={_accountName}&game=CS2", cancellationToken);
+                var response = await _client.GetAsync($"players?nickname={accountName}&game=CS2", cancellationToken);
                 var deserializeResponse = JsonConvert.DeserializeObject<Account>(
                         await response.Content.ReadAsStringAsync(cancellationToken));
 

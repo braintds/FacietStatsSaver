@@ -21,12 +21,14 @@ namespace FacietStatsSaver
     /// </summary>
     public partial class MainWindow : Window
     {
-        FacietStatsSaver.ViewModel.MainViewModel? _model = null;
+        //FacietStatsSaver.ViewModel.MainViewModel? _model = null;
         
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel(new FaceitService());
+
+            var api = new faceIt_api();
+            DataContext = new MainViewModel(new FaceitService(api));
         }
 
         //private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -73,28 +75,28 @@ namespace FacietStatsSaver
         //    //debugWnd.ShowViewModel(response == null ? response : "Nullresponse");
         //}
 
-        //private void DateCheckBox_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    MessageBox.Show(DateCheckBox.Content.ToString() + " отмечен");
-        //    this.ToTextBlock.Visibility = Visibility.Visible;
-        //    this.ToDatePicker.Visibility = Visibility.Visible;
-        //    this.DateCheckBox.IsEnabled = false;
-        //}
+        private void DateCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(DateCheckBox.Content.ToString() + " отмечен");
+            this.ToTextBlock.Visibility = Visibility.Visible;
+            this.ToDatePicker.Visibility = Visibility.Visible;
+            this.DateCheckBox.IsEnabled = false;
+        }
 
-        //private void DateCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        //{
-        //    this.ToTextBlock.Visibility = Visibility.Hidden;
-        //    this.ToDatePicker.Visibility = Visibility.Hidden;
-        //}
+        private void DateCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.ToTextBlock.Visibility = Visibility.Hidden;
+            this.ToDatePicker.Visibility = Visibility.Hidden;
+        }
 
-        //private void SaveMatchesButton_Click(object sender, RoutedEventArgs e)
-        //{
+        private void SaveMatchesButton_Click(object sender, RoutedEventArgs e)
+        {
 
-        //}
+        }
 
-        //private void ViewStatisticsButton_Click(object sender, RoutedEventArgs e)
-        //{
+        private void ViewStatisticsButton_Click(object sender, RoutedEventArgs e)
+        {
 
-        //}
+        }
     }
 }
