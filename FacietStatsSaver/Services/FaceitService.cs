@@ -23,9 +23,9 @@ namespace FacietStatsSaver.Services
             return await _api.getAccountAsync(accountName, cancellationToken);
         }
 
-        public async Task<List<Stats>> GetMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition)
+        public async Task<List<Stats>> GetMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition, CancellationToken cancellationToken)
         {
-            return await _api.getPlayerMatchesAsync(from,to,countMatches,startPosition,CancellationToken.None);
+            return await _api.getPlayerMatchesAsync(from, to, countMatches, startPosition, cancellationToken);
         }
     }
 }

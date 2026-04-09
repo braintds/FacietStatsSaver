@@ -4,17 +4,11 @@ namespace FacietStatsSaver.Infrastructure
 {
     class RelayCommand : ICommand
     {
-        //private readonly Func<object?, Task> _execute;
-        //private readonly Predicate<object?>? _canExecute;
-
-        //public RelayCommand(Func<object?, Task> execute,
-        //                    Predicate<object?>? canExecute = null)
-        //{
-        //    _execute = execute;
-        //    _canExecute = canExecute;
-        //}
         private readonly Func<Task> _execute;
+        private readonly Func<Task> _update;
         private readonly Func<bool> _canExecute;
+        private Func<DateTime, DateTime, decimal, decimal, Task> lastMatchesAsync;
+
         public RelayCommand(Func<Task> execute, Func<bool> canExecute = null)
         {
             _execute = execute;

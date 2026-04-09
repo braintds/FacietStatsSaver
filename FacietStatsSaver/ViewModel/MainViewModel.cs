@@ -27,7 +27,12 @@ namespace FacietStatsSaver.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ICommand LoadMatchesCommand { get; }
+        public DateTime FromDate { get; set; } = DateTime.Now.AddDays(-7);
+        public DateTime ToDate { get; set; } = DateTime.Now;
+
+        public decimal CountMatches { get; set; } = 10;
+        public decimal StartPosition { get; set; } = 0;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -36,6 +41,7 @@ namespace FacietStatsSaver.ViewModel
         public ObservableCollection<Stats> Matches { get; } = new();
 
         public ICommand ValidateAccountCommand { get; }
+        public ICommand LastMatchesCommand { get; }
         //public MainViewModel(IFaceitService service)
         //{
         //    _service = service;
@@ -46,15 +52,16 @@ namespace FacietStatsSaver.ViewModel
             _service = faceitService;
 
             ValidateAccountCommand = new RelayCommand(ValidateAccountAsync);
+            LastMatchesCommand = new RelayCommand(LastMatchesAsync);
         }
-        private async Task LoadMatches(DateTime from, DateTime to, decimal countMatches, decimal startPosition)
+        /*private async Task LoadMatches(DateTime from, DateTime to, decimal countMatches, decimal startPosition)
         {
-            var matches = await _service.GetMatchesAsync(from,to, countMatches, startPosition);
+            var matches = await _service.GetMatchesAsync(from, to, countMatches, startPosition);
             Matches.Clear();
 
             foreach (var match in matches)
                 Matches.Add(match);
-        }
+        }*/
 
         private async Task ValidateAccountAsync()
         {
@@ -70,8 +77,30 @@ namespace FacietStatsSaver.ViewModel
             }
         }
 
-        public async Task<string?> checkAccAsync(string name) => (await _service.getAccountAsync(name, CancellationToken.None)).account.player_id;
 
-        //public async Task<List<Model.Stats>> LastMatchesAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition) => await _client.getPlayerMatchesAsync(from, to, 5, 0, CancellationToken.None);
+        private async Task LastMatchesAsync()
+        {
+            try
+            {
+                var result = await _service.GetMatchesAsync(FromDate, ToDate, CountMatches, StartPosition, CancellationToken.None);
+                if (result.Count == 0)
+                {
+                    MessageBox.Show("Матчи не найдены");
+                    return;
+                }
+                else
+                {
+                    foreach (var match in result)
+                        Matches.Add(match);
+                }
+            }
+            catch (ArgumentException ex) { 
+                MessageBox.Show($"{ex.Message}", "ERROR");
+                
+            }
+            
+
+        }
+        public async Task<string?> checkAccAsync(string name) => (await _service.getAccountAsync(name, CancellationToken.None)).account.player_id;
     }
 }

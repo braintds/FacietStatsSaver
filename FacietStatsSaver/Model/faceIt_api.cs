@@ -59,6 +59,10 @@ namespace FacietStatsSaver.Model
 
         public async Task<getPlayerMatchesResponse> getPlayerMatchesStatsAsync(DateTime from, DateTime to, decimal countMatches, decimal startPosition, CancellationToken cancellationToken)
         {
+            if(_account == null)
+            {
+                throw new ArgumentException("you need find account!");
+            }
             int maxAttempts = 3;
             int delayMs = 3000;
 
@@ -89,6 +93,7 @@ namespace FacietStatsSaver.Model
             return new List<Stats>(
                 response.matches.items.Select(x => x.stats)
             );
+            
         }
     }
 }
