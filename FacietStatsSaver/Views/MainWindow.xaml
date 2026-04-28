@@ -24,14 +24,34 @@
         <TextBlock x:Name="wlLabelTextBox" Margin="0,0,1059,64" TextWrapping="Wrap" Text="W/L%:" Foreground="Black" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="37"/>
         <TextBlock x:Name="wlTextBox" HorizontalAlignment="Right" Margin="0,0,1035,64" TextWrapping="Wrap" Text="N/A" Width="24" Height="16" VerticalAlignment="Bottom"/>
         <TextBlock x:Name="accountFindResult" HorizontalAlignment="Left" Margin="691,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Hidden" UseLayoutRounding="True"/>
-        <DataGrid x:Name="MainDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Height="712" VerticalAlignment="Top" HorizontalAlignment="Center" Width="1600" Margin="0,168,0,0" Grid.RowSpan="2" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Matches}">
+        <DataGrid x:Name="MainDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Height="712" VerticalAlignment="Top"  Margin="0,20,0,0" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding Matches}" SnapsToDevicePixels="True" AutoGenerateColumns="False" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Team" IsReadOnly="True" Binding="{Binding Team}"/>
+                <DataGridTextColumn Header="Map" IsReadOnly="True" Binding="{Binding Map}"/>
+                <DataGridTextColumn Header="Result" IsReadOnly="True" Binding="{Binding Result}"/>
+                <DataGridTextColumn Header="Match finished at" IsReadOnly="True" Binding="{Binding MatchFinishedAt}"/>
+                <DataGridTextColumn Header="Score" IsReadOnly="True" Binding="{Binding Score}"/>
+                <DataGridTextColumn Header="Kills" IsReadOnly="True" Binding="{Binding Kills}"/>
+                <DataGridTextColumn Header="Deaths" IsReadOnly="True" Binding="{Binding Deaths}"/>
+                <DataGridTextColumn Header="Assists" IsReadOnly="True" Binding="{Binding Assists}"/>
+                <DataGridTextColumn Header="K/D" IsReadOnly="True" Binding="{Binding KDRatio}"/>
+                <DataGridTextColumn Header="K/R" IsReadOnly="True" Binding="{Binding KRRatio}"/>
+                <DataGridTextColumn Header="ADR" IsReadOnly="True" Binding="{Binding ADR}"/>
+                <DataGridTextColumn Header="MVPs" IsReadOnly="True" Binding="{Binding MVPs}"/>
+                <DataGridTextColumn Header="Quadro" IsReadOnly="True" Binding="{Binding QuadroKills}"/>
+                <DataGridTextColumn Header="Triple" IsReadOnly="True" Binding="{Binding TripleKills}"/>
+                <DataGridTextColumn Header="Double" IsReadOnly="True" Binding="{Binding DoubleKills}"/>
+                <DataGridTextColumn Header="HS%" IsReadOnly="True" Binding="{Binding HeadshotsPercentage}"/>
+            </DataGrid.Columns>
             <DataGrid.ItemBindingGroup>
                 <BindingGroup/>
             </DataGrid.ItemBindingGroup>
         </DataGrid>
         <Button x:Name="matchesButton" Content="Button" HorizontalAlignment="Right" Margin="0,0,1045,16" VerticalAlignment="Bottom"/>
-        <Button x:Name="SaveMatchesButton" Content="Save matches" Margin="0,0,800,70" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="90" /> <!--Click="SaveMatchesButton_Click"-->
-        <Button x:Name="ViewStatisticsButton" Content="View stats" HorizontalAlignment="Right" Margin="0,0,924,71" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Command="{Binding LastMatchesCommand}" /> <!--Click="ViewStatisticsButton_Click"-->
+        <Button x:Name="SaveMatchesButton" Content="Save matches" Margin="0,0,800,70" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="90" />
+        <!--Click="SaveMatchesButton_Click"-->
+        <Button x:Name="ViewStatisticsButton" Content="View stats" HorizontalAlignment="Right" Margin="0,0,924,71" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Command="{Binding LastMatchesCommand}" />
+        <!--Click="ViewStatisticsButton_Click"-->
         <Button x:Name="StopButton" Content="stop" HorizontalAlignment="Left" Height="19" Margin="309,67,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="51"/>
         <DatePicker x:Name="FromDatePicker" HorizontalAlignment="Right" Margin="0,0,1306,16" VerticalAlignment="Bottom" SelectedDate="{Binding FromDate}"/>
         <DatePicker x:Name="ToDatePicker" HorizontalAlignment="Right" Margin="0,0,1125,16" VerticalAlignment="Bottom" SelectedDate="{Binding ToDate}" />

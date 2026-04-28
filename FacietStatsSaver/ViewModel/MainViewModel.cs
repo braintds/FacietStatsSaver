@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using FacietStatsSaver.Infrastructure;
-using FacietStatsSaver.Model;
+
 using FacietStatsSaver.Services;
 using Newtonsoft.Json;
 
@@ -38,7 +38,7 @@ namespace FacietStatsSaver.ViewModel
         protected void OnPropertyChanged([CallerMemberName] string name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public ObservableCollection<Stats> Matches { get; } = new();
+        public ObservableCollection<Domain.Stats> Matches { get; } = new();
 
         public ICommand ValidateAccountCommand { get; }
         public ICommand LastMatchesCommand { get; }
@@ -91,7 +91,7 @@ namespace FacietStatsSaver.ViewModel
                 else
                 {
                     foreach (var match in result)
-                        Matches.Add(match);
+                        Matches.Add(Infrastructure.Mapper.StatsMapper.ToDomain(match));
                 }
             }
             catch (ArgumentException ex) { 
