@@ -17,7 +17,20 @@ namespace FacietStatsSaver.ViewModel
     class MainViewModel : INotifyPropertyChanged
     {
         private readonly IFaceitService _service;
-        
+
+        private bool _realTimeStats = false;
+        public bool RealTimeStats
+        {
+            get => _realTimeStats;
+            set
+            {
+                _realTimeStats = value;
+                OnPropertyChanged();
+
+                realTimeStatsIsOn();
+            }
+        }
+
         private string _nickname;
         public string Nickname
         {
@@ -72,10 +85,29 @@ namespace FacietStatsSaver.ViewModel
             }
         }
 
-        public DateTime FromDate { get; set; } = DateTime.Now.AddDays(-7);
-        public DateTime ToDate { get; set; } = DateTime.Now;
+        private DateTime _fromDate { get; set; } = DateTime.Now.AddDays(-7);
+        public DateTime FromDate
+        {
+            get => _fromDate;
+            set
+            {
+                _fromDate = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public decimal CountMatches { get; set; } = 10;
+        private DateTime _toDate { get; set; } = DateTime.Now;
+        public DateTime ToDate
+        {
+            get => _toDate;
+            set
+            {
+                _toDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal CountMatches { get; set; } = 100;
         public decimal StartPosition { get; set; } = 0;
 
 
@@ -95,6 +127,7 @@ namespace FacietStatsSaver.ViewModel
         public MainViewModel(IFaceitService faceitService)
         {
             _service = faceitService;
+            
 
             ValidateAccountCommand = new RelayCommand(ValidateAccountAsync);
             LastMatchesCommand = new RelayCommand(LastMatchesAsync);
@@ -129,6 +162,7 @@ namespace FacietStatsSaver.ViewModel
         {
             try
             {
+                Matches.Clear();
                 var result = await _service.GetMatchesAsync(FromDate, ToDate, CountMatches, StartPosition, CancellationToken.None);
                 if (result.Count == 0)
                 {
@@ -159,5 +193,12 @@ namespace FacietStatsSaver.ViewModel
 
         }
         public async Task<string?> checkAccAsync(string name) => (await _service.getAccountAsync(name, CancellationToken.None)).account.player_id;
+
+        public void realTimeStatsIsOn() 
+        {
+            FromDate = DateTime.UtcNow;
+        }
+        
+        
     }
 }

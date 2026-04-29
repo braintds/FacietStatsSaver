@@ -97,12 +97,15 @@
                 <CheckBox Content="from now until I stop"
                           Margin="20,0,0,0"
                           VerticalAlignment="Center"
-                          IsChecked="False"
+                          IsChecked="{Binding RealTimeStats}"
+                          IsEnabled="True"
                           />
                 
                 <Button Content="Stop"
                         Width="80"
-                        Margin="10,0,0,0"/>
+                        Margin="10,0,0,0"
+                        Command="{Binding }"
+                        IsEnabled="{Binding RealTimeStats}"/>
                 
                 <Button Content="View stats"
                         Width="120"

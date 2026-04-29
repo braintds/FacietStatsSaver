@@ -27,6 +27,7 @@ namespace FacietStatsSaver.Model
         public faceIt_api() { }
         public async Task<getPlayerByNameResponse> getAccountAsync(string accountName, CancellationToken cancellationToken)
         {
+
             _client.BaseAddress = new System.Uri("https://open.faceit.com/data/v4/");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _api_key);
             int maxAttempts = 3;
