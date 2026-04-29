@@ -77,16 +77,16 @@ namespace FacietStatsSaver
 
         private void DateCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(DateCheckBox.Content.ToString() + " отмечен");
+            /*MessageBox.Show(DateCheckBox.Content.ToString() + " отмечен");
             this.ToTextBlock.Visibility = Visibility.Visible;
             this.ToDatePicker.Visibility = Visibility.Visible;
-            this.DateCheckBox.IsEnabled = false;
+            this.DateCheckBox.IsEnabled = false;*/
         }
 
         private void DateCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            this.ToTextBlock.Visibility = Visibility.Hidden;
-            this.ToDatePicker.Visibility = Visibility.Hidden;
+            /*this.ToTextBlock.Visibility = Visibility.Hidden;
+            this.ToDatePicker.Visibility = Visibility.Hidden;*/
         }
 
         private void SaveMatchesButton_Click(object sender, RoutedEventArgs e)
