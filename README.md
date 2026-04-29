@@ -1,4 +1,4 @@
-\# Faceit stats saver
+# Faceit stats saver
 
 
 
@@ -8,7 +8,7 @@ This is a FaceIt player stats collector I made for Counter-Strike 2.
 
 
 
-\# Version
+# Version
 
 
 
@@ -16,7 +16,7 @@ This is the MVP of this application.
 
 
 
-\# Application features
+# Application features
 
 
 
@@ -24,7 +24,7 @@ Currently, the application can collect game statistics for a specific date and c
 
 
 
-\# How to use
+# How to use
 
 
 
@@ -32,7 +32,7 @@ Now you need to enter your FaceIt nickname and select match dates. Real-time sta
 
 
 
-\# Errors
+# Errors
 
 If you find any errors or incorrect work, please open an issue. I will try to resolve it asap.
 
