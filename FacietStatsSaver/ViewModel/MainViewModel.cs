@@ -17,6 +17,7 @@ namespace FacietStatsSaver.ViewModel
     class MainViewModel : INotifyPropertyChanged
     {
         private readonly IFaceitService _service;
+        
         private string _nickname;
         public string Nickname
         {
@@ -27,6 +28,50 @@ namespace FacietStatsSaver.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string _AVGKills = "N/A";
+        public string AVGKills
+        {
+            get => _AVGKills;
+            set
+            {
+                _AVGKills = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _hsPercentage = "N/A";
+        public string HsPercentage
+        {
+            get => _hsPercentage;
+            set
+            {
+                _hsPercentage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _wlRatio = "N/A";
+        public string WLRatio
+        {
+            get => _wlRatio;
+            set
+            {
+                _wlRatio = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isAccountValid = false;
+        public bool IsAccountValid
+        {
+            get => _isAccountValid;
+            set
+            {
+                _isAccountValid = value;
+                OnPropertyChanged();
+            }
+        }
+
         public DateTime FromDate { get; set; } = DateTime.Now.AddDays(-7);
         public DateTime ToDate { get; set; } = DateTime.Now;
 
@@ -70,10 +115,12 @@ namespace FacietStatsSaver.ViewModel
             if (string.IsNullOrEmpty(result.account.player_id))
             {
                 MessageBox.Show("Неверный никнейм");
+                IsAccountValid = false;
             }
             else
             {
                 MessageBox.Show("Аккаунт найден");
+                IsAccountValid = true;
             }
         }
 
@@ -90,8 +137,18 @@ namespace FacietStatsSaver.ViewModel
                 }
                 else
                 {
+
                     foreach (var match in result)
                         Matches.Add(Infrastructure.Mapper.StatsMapper.ToDomain(match));
+
+                    
+                    int wins = Matches.Count(x => x.Result == "Win");
+                    WLRatio = $"{wins}/{Matches.Count - wins}";
+
+                    AVGKills = (Matches.Sum(x=>x.Kills)/Matches.Count).ToString();
+
+                    HsPercentage = (Matches.Sum(x=>x.HeadshotsPercentage)/Matches.Count).ToString();
+
                 }
             }
             catch (ArgumentException ex) { 
