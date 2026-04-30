@@ -85,6 +85,16 @@ namespace FacietStatsSaver.ViewModel
             }
         }
 
+        private string _avgKd = "N/A";
+        public string AvgKd
+        {
+            get => _avgKd;
+            set
+            {
+                _avgKd = value;
+                OnPropertyChanged();
+            }
+        }
         private DateTime _fromDate { get; set; } = DateTime.Now.AddDays(-7);
         public DateTime FromDate
         {
@@ -119,6 +129,8 @@ namespace FacietStatsSaver.ViewModel
 
         public ICommand ValidateAccountCommand { get; }
         public ICommand LastMatchesCommand { get; }
+        public ICommand PreviewStatsCommand { get; }
+        public ICommand CalculateRealTimeStatsCommand { get; }
         //public MainViewModel(IFaceitService service)
         //{
         //    _service = service;
@@ -131,6 +143,8 @@ namespace FacietStatsSaver.ViewModel
 
             ValidateAccountCommand = new RelayCommand(ValidateAccountAsync);
             LastMatchesCommand = new RelayCommand(LastMatchesAsync);
+            CalculateRealTimeStatsCommand = new RelayCommand(CalculateRealTimeStats);
+            PreviewStatsCommand = new RelayCommand(PreviewStats);
         }
         /*private async Task LoadMatches(DateTime from, DateTime to, decimal countMatches, decimal startPosition)
         {
@@ -177,12 +191,11 @@ namespace FacietStatsSaver.ViewModel
 
                     
                     int wins = Matches.Count(x => x.Result == "Win");
+                   
                     WLRatio = $"{wins}/{Matches.Count - wins}";
-
                     AVGKills = (Matches.Sum(x=>x.Kills)/Matches.Count).ToString();
-
                     HsPercentage = (Matches.Sum(x=>x.HeadshotsPercentage)/Matches.Count).ToString();
-
+                    AvgKd = (Matches.Sum(x => x.KDRatio) / Matches.Count).ToString("F2");
                 }
             }
             catch (ArgumentException ex) { 
@@ -194,11 +207,36 @@ namespace FacietStatsSaver.ViewModel
         }
         public async Task<string?> checkAccAsync(string name) => (await _service.getAccountAsync(name, CancellationToken.None)).account.player_id;
 
+        public async Task CalculateRealTimeStats()
+        {
+            ToDate = DateTime.UtcNow;
+            
+            await LastMatchesAsync();
+            IsAccountValid = true;
+        }
+
+        public async Task PreviewStats()
+        {
+            ToDate = DateTime.UtcNow;
+            await LastMatchesAsync();
+        }
+
         public void realTimeStatsIsOn() 
         {
             FromDate = DateTime.UtcNow;
+            IsAccountValid = false;
         }
         
-        
+        public void SaveStats()
+        {
+            if (Matches.Count < 0)
+            {
+                MessageBox.Show($"Nothing to save!");
+            }
+            else
+            {
+                MessageBox.Show($"Coming soon");
+            }
+        }
     }
 }

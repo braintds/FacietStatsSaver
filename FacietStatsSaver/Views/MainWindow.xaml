@@ -104,7 +104,12 @@
                 <Button Content="Stop"
                         Width="80"
                         Margin="10,0,0,0"
-                        Command="{Binding }"
+                        Command="{Binding CalculateRealTimeStatsCommand}"
+                        IsEnabled="{Binding RealTimeStats}"/>
+                <Button Content="Preview stats"
+                        Width="80"
+                        Margin="10,0,0,0"
+                        Command="{Binding PreviewStatsCommand}"
                         IsEnabled="{Binding RealTimeStats}"/>
                 
                 <Button Content="View stats"
@@ -116,7 +121,8 @@
                 <Button Content="Save matches"
                         Width="120"
                         Margin="10,0,0,0"
-                        IsEnabled="{Binding IsAccountValid}"/>
+                        IsEnabled="{Binding IsAccountValid}"
+                        Command="{Binding SaveStatsCommand}"/>
 
 
 
@@ -140,7 +146,7 @@
                            FontWeight="Bold"
                            Margin="0,0,20,0"/>
 
-                <TextBlock Text="AVG:"
+                <TextBlock Text="Kills:"
                            FontWeight="SemiBold"/>
 
                 <TextBlock Text="{Binding AVGKills}"
@@ -152,12 +158,17 @@
                 <TextBlock Text="{Binding HsPercentage}"
                            Margin="5,0,15,0"/>
 
+                <TextBlock Text="KD%:"
+                           FontWeight="SemiBold"/>
+
+                <TextBlock Text="{Binding AvgKd}"
+                           Margin="5,0,15,0"/>
+
                 <TextBlock Text="W/L%:"
                            FontWeight="SemiBold"/>
 
                 <TextBlock Text="{Binding WLRatio}"
-                           Margin="5,0,0,0"/>
-
+                           Margin="5,0,15,0"/>
             </StackPanel>
 
         </Border>
