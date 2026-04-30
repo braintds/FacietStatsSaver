@@ -3,43 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace FacietStatsSaver.Domain
+namespace FacietStatsSaver.Model
 {
     public class Stats
-    {
-        public string Team { get; set; }
-        public string Map { get; set; }
-        public string Result { get; set; }
-       
-        [JsonProperty("Match Finished At")]
-        public DateTime MatchFinishedAt { get; set; }
-        public string Score { get; set; }
-        public int Kills { get; set; }
-        public int Deaths { get; set; }
-        public int Assists { get; set; }
-        
-        [JsonProperty("K/D")]
-        public double KDRatio { get; set; }
-        
-        [JsonProperty("K/R")]
-        public double KRRatio { get; set; }
-        public double ADR { get; set; }
-        public int MVPs { get; set; }
-        
-        [JsonProperty("Quadro Kills")]
-        public int QuadroKills { get; set; }
-        
-        [JsonProperty("Triple Kills")]
-        public int TripleKills { get; set; }
-
-        [JsonProperty("Double Kills")]
-        public int DoubleKills { get; set; }
-
-        [JsonProperty("Headshots %")]
-        public double HeadshotsPercentage { get; set; }
-    }
-
-    /*public class ApiStats
     {
         public string Kills { get; set; }
 
@@ -117,6 +83,5 @@ namespace FacietStatsSaver.Domain
 
         [JsonProperty("K/R Ratio")]
         public string KRRatio { get; set; }
-    }*/
-
+    }
 }
