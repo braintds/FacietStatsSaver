@@ -17,7 +17,8 @@ namespace FacietStatsSaver.ViewModel
 {
     class MainViewModel : INotifyPropertyChanged
     {
-        private readonly IFaceitService _service;
+        private readonly IFaceitService _faceitService;
+        private readonly IStatisticsService _statisticsService;
 
         private bool _realTimeStats = false;
         public bool RealTimeStats
@@ -137,24 +138,16 @@ namespace FacietStatsSaver.ViewModel
         //    _service = service;
         //    LoadMatchesCommand = new RelayCommand(async _ => await LoadMatches());
         //}
-        public MainViewModel(IFaceitService faceitService)
+        public MainViewModel(IFaceitService faceitService, IStatisticsService statisticsService)
         {
-            _service = faceitService;
-            
+            _faceitService = faceitService;
+            _statisticsService = statisticsService;
 
             ValidateAccountCommand = new RelayCommand(ValidateAccountAsync);
             LastMatchesCommand = new RelayCommand(LastMatchesAsync);
             CalculateRealTimeStatsCommand = new RelayCommand(CalculateRealTimeStats);
             PreviewStatsCommand = new RelayCommand(PreviewStats);
         }
-        /*private async Task LoadMatches(DateTime from, DateTime to, decimal countMatches, decimal startPosition)
-        {
-            var matches = await _service.GetMatchesAsync(from, to, countMatches, startPosition);
-            Matches.Clear();
-
-            foreach (var match in matches)
-                Matches.Add(match);
-        }*/
 
         private async Task ValidateAccountAsync()
         {
@@ -163,7 +156,7 @@ namespace FacietStatsSaver.ViewModel
                 if (string.IsNullOrEmpty(Nickname))
                     throw new ArgumentNullException("Nickname is null!");
 
-                var result = await _service.getAccountAsync(Nickname, CancellationToken.None); //Обработка токена будет добавлена позже
+                var result = await _faceitService.getAccountAsync(Nickname, CancellationToken.None); //Обработка токена будет добавлена позже
 
                 if (string.IsNullOrEmpty(result.account.player_id))
                 {
@@ -197,7 +190,7 @@ namespace FacietStatsSaver.ViewModel
             try
             {
                 Matches.Clear();
-                var result = await _service.GetMatchesAsync(FromDate, ToDate, CountMatches, StartPosition, CancellationToken.None);
+                var result = await _faceitService.GetMatchesAsync(FromDate, ToDate, CountMatches, StartPosition, CancellationToken.None);
                 if (result.Count == 0)
                 {
                     var MessageBox = new MessageWindow("Матчи не найдены");
@@ -210,13 +203,11 @@ namespace FacietStatsSaver.ViewModel
                     foreach (var match in result)
                         Matches.Add(Infrastructure.Mapper.StatsMapper.ToDomain(match));
 
-                    
-                    int wins = Matches.Count(x => x.Result == "Win");
                    
-                    WLRatio = $"{wins}/{Matches.Count - wins}";
-                    AVGKills = (Matches.Sum(x=>x.Kills)/Matches.Count).ToString("F0");
-                    HsPercentage = (Matches.Sum(x=>x.HeadshotsPercentage)/Matches.Count).ToString("F0");
-                    AvgKd = (Matches.Sum(x => x.KDRatio) / Matches.Count).ToString("F2");
+                    WLRatio = $"{_statisticsService.CalcutateWins(Matches)}/{_statisticsService.CalcutateLoses(Matches)}";
+                    AVGKills = _statisticsService.CalculateAVG(Matches).ToString("F0");
+                    HsPercentage = _statisticsService.CalculateHS(Matches).ToString("F0");
+                    AvgKd = _statisticsService.CalculateKD(Matches.ToList()).ToString("F2");
                 }
             }
             catch (ArgumentException ex) { 
@@ -249,7 +240,7 @@ namespace FacietStatsSaver.ViewModel
         
         public void SaveStats()
         {
-            if (Matches.Count < 0)
+            if (Matches.Count == 0)
             {
                 var CustomMessageBox = new MessageWindow($"Nothing to save!");
                 CustomMessageBox.ShowDialog();

@@ -26,7 +26,7 @@ namespace FacietStatsSaver
             InitializeComponent();
 
             var api = new faceIt_api();
-            DataContext = new MainViewModel(new FaceitService(api));
+            DataContext = new MainViewModel(new FaceitService(api), new StatisticsService());
         }
     }
 }
