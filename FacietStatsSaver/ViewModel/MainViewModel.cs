@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -157,18 +158,37 @@ namespace FacietStatsSaver.ViewModel
 
         private async Task ValidateAccountAsync()
         {
-            var result = await _service.getAccountAsync(Nickname, CancellationToken.None); //Обработка токена будет добавлена позже
+            try
+            {
+                if (string.IsNullOrEmpty(Nickname))
+                    throw new ArgumentNullException("Nickname is null!");
 
-            if (string.IsNullOrEmpty(result.account.player_id))
-            {
-                MessageBox.Show("Неверный никнейм");
-                IsAccountValid = false;
+                var result = await _service.getAccountAsync(Nickname, CancellationToken.None); //Обработка токена будет добавлена позже
+
+                if (string.IsNullOrEmpty(result.account.player_id))
+                {
+                    var MessageBox = new MessageWindow("Nickname is incorrect");
+                    MessageBox.ShowDialog();
+                    IsAccountValid = false;
+                }
+                else
+                {
+                    var MessageBox = new MessageWindow($"Account find");
+                    MessageBox.ShowDialog();
+                    IsAccountValid = true;
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("Аккаунт найден");
-                IsAccountValid = true;
+                var MessageBox = new MessageWindow(ex.StatusCode.ToString());
+                MessageBox.ShowDialog();
             }
+            catch (ArgumentNullException ex) 
+            {
+                var MessageBox = new MessageWindow(ex.ParamName != null ? ex.ParamName : ex.Message);
+                MessageBox.ShowDialog();
+            }
+
         }
 
 
@@ -180,7 +200,8 @@ namespace FacietStatsSaver.ViewModel
                 var result = await _service.GetMatchesAsync(FromDate, ToDate, CountMatches, StartPosition, CancellationToken.None);
                 if (result.Count == 0)
                 {
-                    MessageBox.Show("Матчи не найдены");
+                    var MessageBox = new MessageWindow("Матчи не найдены");
+                    MessageBox.ShowDialog(); 
                     return;
                 }
                 else
@@ -193,19 +214,18 @@ namespace FacietStatsSaver.ViewModel
                     int wins = Matches.Count(x => x.Result == "Win");
                    
                     WLRatio = $"{wins}/{Matches.Count - wins}";
-                    AVGKills = (Matches.Sum(x=>x.Kills)/Matches.Count).ToString();
-                    HsPercentage = (Matches.Sum(x=>x.HeadshotsPercentage)/Matches.Count).ToString();
+                    AVGKills = (Matches.Sum(x=>x.Kills)/Matches.Count).ToString("F0");
+                    HsPercentage = (Matches.Sum(x=>x.HeadshotsPercentage)/Matches.Count).ToString("F0");
                     AvgKd = (Matches.Sum(x => x.KDRatio) / Matches.Count).ToString("F2");
                 }
             }
             catch (ArgumentException ex) { 
-                MessageBox.Show($"{ex.Message}", "ERROR");
-                
+                var CustomMessageBox = new MessageWindow($"{ex.Message}");
+                CustomMessageBox.ShowDialog();
             }
             
 
         }
-        public async Task<string?> checkAccAsync(string name) => (await _service.getAccountAsync(name, CancellationToken.None)).account.player_id;
 
         public async Task CalculateRealTimeStats()
         {
@@ -231,11 +251,13 @@ namespace FacietStatsSaver.ViewModel
         {
             if (Matches.Count < 0)
             {
-                MessageBox.Show($"Nothing to save!");
+                var CustomMessageBox = new MessageWindow($"Nothing to save!");
+                CustomMessageBox.ShowDialog();
             }
             else
             {
-                MessageBox.Show($"Coming soon");
+                var CustomMessageBox = new MessageWindow($"Coming soon");
+                CustomMessageBox.ShowDialog();
             }
         }
     }
