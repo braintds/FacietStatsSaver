@@ -9,22 +9,26 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FacietStatsSaver.ViewModel;
 
 namespace FacietStatsSaver
 {
     /// <summary>
     /// Логика взаимодействия для debugWnd.xaml
     /// </summary>
-    public partial class debugWnd : Window
+    public partial class MessageWindow : Window
     {
-        public debugWnd()
+        public MessageWindow(string Message)
         {
             InitializeComponent();
+
+
+            MessageViewModel vm = new MessageViewModel(Message);
+
+            vm.CloseAction = new Action(this.Close);
+
+            DataContext = vm;
         }
 
-        public void ShowViewModel(string data) {
-            this.debugTextBlock.Text = data;
-            this.debugTextBlock.Visibility = Visibility.Visible;
-        }
     }
 }
